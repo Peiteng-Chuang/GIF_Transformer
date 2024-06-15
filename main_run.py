@@ -1,4 +1,4 @@
-import GTA
+import GTA , pkl_GTA
 import time
 import os
 import sys
@@ -29,9 +29,11 @@ def play_video(file_path):
         player.stop()
 
 if __name__=="__main__":
-    g=GTA.GTA()
+    # g=GTA.GTA()
+    g=pkl_GTA.GTA()
     g.clear_save_path()         #removing old stuff in file
     g.save_frames()             #saving new stuff in file
+    g.transform_imgtotxt()  # 將圖片轉成ASCII符號並保存為PKL文件
     for i in range(3,1,-1):
         g.clear_screen()
         print(f"即將開始撥放影片...{i}\n請確保有足夠空間顯示動畫")
@@ -40,7 +42,7 @@ if __name__=="__main__":
         # 創建並啟動播放線程
         play_thread = threading.Thread(target=play_video, args=(file_path,))
         play_thread.start()
-
+        #製作檔案
         # 主迴圈，模擬其他工作
         g.dancing()
 
