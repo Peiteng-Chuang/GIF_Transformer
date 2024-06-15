@@ -1,5 +1,4 @@
-import time
-import os
+import os,sys,time
 import cv2
 import pickle
 from PIL import Image
@@ -49,14 +48,25 @@ class GTA(object):
 
     def dancing(self):
         while True:
+            # with open(self.file_name, 'rb') as file:
+            #     ascii_frames = pickle.load(file)
+            
+            # for frame in ascii_frames:
+            #     for line in frame:
+            #         print(line)
+            #     time.sleep(0.035)
+            #     self.clear_screen()
             with open(self.file_name, 'rb') as file:
                 ascii_frames = pickle.load(file)
-            
             for frame in ascii_frames:
+                # 使用 ANSI 轉義序列將光標移回行首
+                sys.stdout.write("\r")
+                # 打印當前框架的每一行
                 for line in frame:
-                    print(line)
-                time.sleep(0.035)
-                self.clear_screen()
+                    sys.stdout.write(line + "\n")
+                # 強制刷新 stdout 緩衝區，使得立即顯示變更
+                sys.stdout.flush()
+                time.sleep(0.040)
 
 
     def files_in_directory(self,directory):
