@@ -67,6 +67,7 @@ class GTA(object):
                 # 強制刷新 stdout 緩衝區，使得立即顯示變更
                 sys.stdout.flush()
                 time.sleep(0.040)
+                self.clear_screen()
 
 
     def files_in_directory(self,directory):
