@@ -34,10 +34,10 @@ if __name__=="__main__":
     g.clear_save_path()         #removing old stuff in file
     g.save_frames()             #saving new stuff in file
     g.transform_imgtotxt()  # 將圖片轉成ASCII符號並保存為PKL文件
-    for i in range(2,0,-1):
+    for i in range(3,0,-1):
         g.clear_screen()
         print(f"即將開始撥放影片...{i}\n請確保有足夠空間顯示動畫")
-        if i>1:time.sleep(1)
+        if i>0:time.sleep(1)
     try:
         # 創建並啟動播放線程
         play_thread = threading.Thread(target=play_video, args=(file_path,))

@@ -102,7 +102,7 @@ class GTA(object):
         if os.path.exists(filepath):
                 os.remove(filepath)
         file_len=self.count_files_in_directory("./gif_frame")
-        print(file_len)
+        print(f"transform {file_len} images into txt...")
         for a1 in range(file_len) :
             frame_name='.//gif_frame//frame_'+ str(a1) +'.png'
             img = cv2.imread(frame_name, cv2.IMREAD_GRAYSCALE) # 將圖片自動轉為灰階圖片

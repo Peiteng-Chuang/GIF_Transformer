@@ -104,7 +104,7 @@ class GTA(object):
 
         ascii_frames = []
         file_len = self.count_files_in_directory(self.save_path)
-        print(file_len)
+        print(f"transform {file_len} images into pkl...")
         for a1 in range(file_len):
             frame_name = os.path.join(self.save_path, f'frame_{a1}.png')
             img = cv2.imread(frame_name, cv2.IMREAD_GRAYSCALE) # 將圖片自動轉為灰階圖片
