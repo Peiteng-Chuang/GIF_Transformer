@@ -1,4 +1,4 @@
-import os,sys,time
+import os,sys,time,io
 import cv2
 import pickle
 from PIL import Image
@@ -40,34 +40,46 @@ class GTA(object):
 
 
     def clear_screen(self):
-        if os.name == 'posix':  # Unix/Linux/MacOS
-            os.system('clear')
-        elif os.name == 'nt':  # Windows
-            os.system('cls')
+        # if os.name == 'posix':  # Unix/Linux/MacOS
+        #     os.system('clear')
+        # elif os.name == 'nt':  # Windows
+        #     os.system('cls')
+        sys.stdout.write("\033[H\033[J")# 使用 ANSI 轉義序列來清除螢幕
+        sys.stdout.flush()
 
 
     def dancing(self):
         while True:
-            # with open(self.file_name, 'rb') as file:
-            #     ascii_frames = pickle.load(file)
-            
-            # for frame in ascii_frames:
-            #     for line in frame:
-            #         print(line)
-            #     time.sleep(0.035)
-            #     self.clear_screen()
+                # 使用內存緩存讀取和存儲大量文字
+            buffer = io.StringIO()
+
             with open(self.file_name, 'rb') as file:
                 ascii_frames = pickle.load(file)
+
             for frame in ascii_frames:
-                # 使用 ANSI 轉義序列將光標移回行首
-                sys.stdout.write("\r")
-                # 打印當前框架的每一行
                 for line in frame:
-                    sys.stdout.write(line + "\n")
-                # 強制刷新 stdout 緩衝區，使得立即顯示變更
-                sys.stdout.flush()
-                time.sleep(0.040)
-                self.clear_screen()
+                    buffer.write(line + "\n")
+                # buffer.write("\n")  # 每個frame之間加一個空行，方便區分
+
+            buffer.seek(0)  # 將緩存指針移到開頭
+
+            # while True:
+            #     buffer.seek(0)  # 每次循環將指針重置到緩存開頭
+            #     for _ in range(len(ascii_frames)):
+            #         for _ in range(self.HEIGHT):
+            #             line = buffer.readline()
+            #             sys.stdout.write(line)
+            #         sys.stdout.flush()
+            #         time.sleep(0.040)
+            #         self.clear_screen()
+            while True:
+                buffer.seek(0)  # 每次循環將指針重置到緩存開頭
+                for frame in ascii_frames:
+                    sys.stdout.write("\033[H")  # 使用 ANSI 轉義序列將光標移到行首
+                    for line in frame:
+                        sys.stdout.write(line + "\n")
+                    sys.stdout.flush()
+                    time.sleep(0.040)
 
 
     def files_in_directory(self,directory):
